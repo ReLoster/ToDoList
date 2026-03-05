@@ -6,13 +6,12 @@ import java.util.Scanner;
 
 
 
-public class main {
-    private static ArrayList<String> tasks = new ArrayList<>();
+public class Main {
+    private static ArrayList<Task> tasks = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
     private static final String FILE_NAME = "tasks.txt";
 
     public static void main(String[] args) {
-        loadTasks();
         while (true) {
             System.out.println("\n1. показать задачи");
             System.out.println("2. добавить задачу");
@@ -39,6 +38,7 @@ public class main {
                 System.out.println("ошибка");
             }
         }
+        loadTasks();
     }
 
 
@@ -56,7 +56,8 @@ public class main {
 
     private static void addTask() {
         System.out.print("введите задачу: ");
-        tasks.add(scanner.nextLine());
+        String name = scanner.nextLine();
+        tasks.add(new Task(name));
         System.out.println("готово!");
         saveTasks();
     }
@@ -86,7 +87,8 @@ public class main {
             scanner.nextLine();
             if (num >= 0 && num < tasks.size()) {
                 System.out.print("новый текст: ");
-                tasks.set(num, scanner.nextLine());
+                String name = scanner.nextLine();
+                tasks.set(num, new Task(name));
                 System.out.println("готово!");
                 saveTasks();
             } else {
@@ -99,7 +101,7 @@ public class main {
     private static void saveTasks() {
         try {
             PrintWriter pw = new PrintWriter(FILE_NAME);
-            for (String s : tasks) {
+            for (Task s : tasks) {
                 pw.println(s);
             }
             pw.close();
@@ -114,7 +116,8 @@ public class main {
             BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
             String line;
             while ((line = br.readLine()) != null) {
-                tasks.add(line);
+                String name = scanner.nextLine();
+                tasks.add(new Task(name));
             }
             br.close();
         } catch (Exception e) {
